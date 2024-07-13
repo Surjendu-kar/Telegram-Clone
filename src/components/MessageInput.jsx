@@ -1,33 +1,46 @@
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import SendIcon from '@mui/icons-material/Send';
+import { useState } from "react";
+import { Box, TextField, IconButton } from "@mui/material";
+import { AttachFile, Send, Mic, EmojiEmotions } from "@mui/icons-material";
 
-function MessageInput({ chatId }) {
-  const [message, setMessage] = useState('');
+const MessageInput = ({ onSendMessage }) => {
+  const [newMessage, setNewMessage] = useState("");
 
-  const handleSend = () => {
-    // Implement send message functionality
-    console.log(`Sending message to chat ${chatId}: ${message}`);
-    setMessage('');
+  const handleSendMessage = () => {
+    onSendMessage(newMessage);
+    setNewMessage("");
   };
 
   return (
-    <Box sx={{ padding: 2, borderTop: 1, borderColor: 'divider', display: 'flex' }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        padding: "0.5rem 0",
+        borderTop: "1px solid #ccc",
+        width: "100%",
+      }}
+    >
+      <IconButton>
+        <EmojiEmotions />
+      </IconButton>
       <TextField
         fullWidth
-        variant="outlined"
-        placeholder="Type a message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+        placeholder="Message"
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+        sx={{ mx: 1 }}
       />
-      <IconButton color="primary" onClick={handleSend}>
-        <SendIcon />
+      <IconButton>
+        <AttachFile />
+      </IconButton>
+      <IconButton onClick={handleSendMessage}>
+        <Send />
+      </IconButton>
+      <IconButton>
+        <Mic />
       </IconButton>
     </Box>
   );
-}
+};
 
 export default MessageInput;
