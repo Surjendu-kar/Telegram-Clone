@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Grid, Box } from "@mui/material";
 import ChatList from "../components/ChatList";
 import ChatWindow from "../components/ChatWindow";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
-  const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedChats, setSelectedChats] = useState(null);
 
   return (
     <Grid container className="grid-container">
@@ -17,11 +18,12 @@ const Home = () => {
           overflowY: "auto",
         }}
       >
-        <ChatList onSelectChat={setSelectedChat} />
+        <Navbar />
+        <ChatList onSelectChat={setSelectedChats} />
       </Grid>
       <Grid item xs={8} sx={{ height: "100vh", overflowY: "auto" }}>
-        {selectedChat ? (
-          <ChatWindow chatId={selectedChat} />
+        {selectedChats ? (
+          <ChatWindow chats={selectedChats} />
         ) : (
           <Box>Select a chat to view messages</Box>
         )}
