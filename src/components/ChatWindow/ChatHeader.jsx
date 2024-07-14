@@ -49,11 +49,11 @@ const ChatHeader = ({ chat }) => {
       }}
     >
       <Avatar sx={{ margin: "0 1rem" }}>
-        {chat.creator.name ? chat.creator.name.charAt(0) : "U"}
+        {chat.creator.name ? chat.creator.name.charAt(0) : "D"}
       </Avatar>
       <Box sx={{ flexGrow: 1 }}>
         <Typography sx={{ fontSize: "1rem" }}>
-          {chat.creator.name ? chat.creator.name : "Unknown User"}
+          {chat.creator.name ? chat.creator.name : "Deleted User"}
         </Typography>
         <Typography variant="body2" color="textSecondary">
           last seen recently

@@ -93,7 +93,7 @@ const ChatList = ({ onSelectChat }) => {
             {chatGroup.user.name ? chatGroup.user.name.charAt(0) : "U"}
           </StyledAvatar>
           <ContentBox>
-            <UserName>{chatGroup.user.name || "Unknown User"}</UserName>
+            <UserName>{chatGroup.user.name || "Deleted User"}</UserName>
             <Typography variant="body2">
               {chatGroup.chats.reduce((acc, chat) => acc + chat.msg_count, 0)}{" "}
               messages

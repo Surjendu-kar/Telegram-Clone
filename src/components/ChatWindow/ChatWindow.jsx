@@ -17,7 +17,7 @@ const ChatContainer = styled(Box)({
 const MessagesContainer = styled(Box)({
   flexGrow: 1,
   overflowY: "auto",
-  paddingBottom: "70px",
+  // paddingBottom: "70px",
 });
 
 const ScrollButton = styled(IconButton)(({ theme }) => ({
@@ -32,14 +32,15 @@ const ScrollButton = styled(IconButton)(({ theme }) => ({
 }));
 
 const InputContainer = styled(Box)({
-  position: "absolute",
+  position: "relative",
   bottom: 0,
   left: 0,
   right: 0,
   backgroundColor: "#ffffff",
-  boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.05)",
+  // boxShadow: "0px 4px 0px rgba(0, 0, 0, 0.08)",
   width: "60%",
-  margin: "0 auto",
+  margin: "0.5rem auto 1rem",
+  borderRadius: "10px",
 });
 
 const ChatWindow = ({ chats, onBack }) => {
