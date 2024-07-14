@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import ChatList from "../components/ChatList";
 import ChatWindow from "../components/ChatWindow";
 import Navbar from "../components/Navbar";
+import TwitterIcon from "../assets/twitter.png";
 
 const Home = () => {
   const [selectedChats, setSelectedChats] = useState(null);
@@ -29,7 +30,37 @@ const Home = () => {
         {selectedChats ? (
           <ChatWindow chats={selectedChats} onBack={handleBack} />
         ) : (
-          <Box>Select a chat to view messages</Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+              // backgroundColor: "#f5f5f5",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <Typography variant="h5" sx={{ color: "grey.500" }}>
+                Select a chat to view messages
+              </Typography>
+              <img 
+                src={TwitterIcon} 
+                alt="Twitter Icon" 
+                style={{ 
+                  width: "40px", 
+                  height: "40px",
+                  opacity: 0.5 
+                }} 
+              />
+            </Box>
+          </Box>
         )}
       </Grid>
     </Grid>
