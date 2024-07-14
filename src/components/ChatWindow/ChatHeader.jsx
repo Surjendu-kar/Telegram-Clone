@@ -48,9 +48,13 @@ const ChatHeader = ({ chat }) => {
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <Avatar sx={{ margin: "0 1rem" }}>{chat.creator.name.charAt(0)}</Avatar>
+      <Avatar sx={{ margin: "0 1rem" }}>
+        {chat.creator.name ? chat.creator.name.charAt(0) : "U"}
+      </Avatar>
       <Box sx={{ flexGrow: 1 }}>
-        <Typography sx={{ fontSize: "1rem" }}>{chat.creator.name}</Typography>
+        <Typography sx={{ fontSize: "1rem" }}>
+          {chat.creator.name ? chat.creator.name : "Unknown User"}
+        </Typography>
         <Typography variant="body2" color="textSecondary">
           last seen recently
         </Typography>

@@ -3,9 +3,11 @@ import { List, ListItem, Avatar, Box, Typography, styled } from "@mui/material";
 import { getAllChats } from "../../services/api";
 
 const StyledListItem = styled(ListItem)(({ theme, isSelected }) => ({
+  cursor: "pointer",
   borderRadius: "15px",
   backgroundColor: isSelected ? theme.palette.primary.main : "inherit",
   color: isSelected ? "white" : "inherit",
+  transition: "all 0.5s ease",
   "&:hover": {
     backgroundColor: isSelected
       ? theme.palette.primary.dark
@@ -74,6 +76,7 @@ const ChatList = ({ onSelectChat }) => {
   }, []);
 
   const handleSelectChat = (chatGroup) => {
+    document.title = chatGroup.user.name;
     setSelectedChatId(chatGroup.user.id);
     onSelectChat(chatGroup.chats);
   };
