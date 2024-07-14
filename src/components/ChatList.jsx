@@ -9,12 +9,12 @@ const ChatList = ({ onSelectChat }) => {
     const fetchChats = async () => {
       let allChats = [];
       try {
-        for (let page = 1; page <= 10; page++) {
+        // for (let page = 1; page <= 10; page++) {
           const response = await axios.get(
-            `https://devapi.beyondchats.com/api/get_all_chats?page=${page}`
+            `https://devapi.beyondchats.com/api/get_all_chats?page=1`
           );
           allChats = allChats.concat(response.data.data.data);
-        }
+        // }
         // console.log("Fetched Chats:", allChats);
 
         const groupedChats = allChats.reduce((acc, chat) => {

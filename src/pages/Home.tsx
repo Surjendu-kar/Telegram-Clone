@@ -3,7 +3,7 @@ import { Grid, Box, Typography } from "@mui/material";
 import ChatList from "../components/ChatList";
 import ChatWindow from "../components/ChatWindow";
 import Navbar from "../components/Navbar";
-import TwitterIcon from "../assets/twitter.png";
+import TwitterIcon from "../assets/telegram.png";
 
 const Home = () => {
   const [selectedChats, setSelectedChats] = useState(null);
