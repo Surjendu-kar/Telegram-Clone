@@ -5,23 +5,23 @@ import {
   IconButton,
   InputAdornment,
   styled,
+  useTheme,
 } from "@mui/material";
 import { AttachFile, Send, Mic, EmojiEmotions } from "@mui/icons-material";
 
-const InputBox = styled(Box)({
+const InputBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  padding: "0.5rem",
+  padding: "0.75rem",
   borderTop: "1px solid #ccc",
   width: "100%",
-  backgroundColor: "#ffffff",
+  backgroundColor: theme.palette.background.paper,
   borderRadius: "10px",
   boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.09)",
-  margin: "0 auto",
-  height: "35px",
-});
+  height: "50px",
+}));
 
-const StyledTextField = styled(TextField)({
+const StyledTextField = styled(TextField)(({ theme }) => ({
   flexGrow: 1,
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -35,20 +35,21 @@ const StyledTextField = styled(TextField)({
     },
   },
   "& .MuiInputBase-input": {
-    padding: "10px 14px",
+    padding: "15px 14px",
   },
-});
+}));
 
 const HoverIconButton = styled(IconButton)(({ theme }) => ({
   transition: "background-color 0.3s, color 0.3s",
   "&:hover": {
-    backgroundColor: "#0084ff",
-    color: "#ffffff",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
   },
 }));
 
 const MessageInput = ({ onSendMessage }) => {
   const [newMessage, setNewMessage] = useState("");
+  const theme = useTheme();
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -58,9 +59,14 @@ const MessageInput = ({ onSendMessage }) => {
   };
 
   return (
-    <Box display={"flex"}>
-      <InputBox>
-        <HoverIconButton sx={{ color: "#808080" }}>
+    <Box
+      display={"flex"}
+      width={"60%"}
+      margin={"0 auto"}
+      sx={{ display: "flex", alignItems: "center", mb: "1rem" }}
+    >
+      <InputBox theme={theme}>
+        <HoverIconButton sx={{ color: theme.palette.text.secondary }}>
           <EmojiEmotions />
         </HoverIconButton>
         <StyledTextField
@@ -71,26 +77,33 @@ const MessageInput = ({ onSendMessage }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <HoverIconButton sx={{ color: "#808080" }}>
+                <HoverIconButton sx={{ color: theme.palette.text.secondary }}>
                   <AttachFile />
                 </HoverIconButton>
               </InputAdornment>
             ),
           }}
+          theme={theme}
         />
       </InputBox>
       <HoverIconButton
         onClick={handleSendMessage}
         sx={{
-          backgroundColor: newMessage.trim() ? "#0084ff" : "#f0f0f0",
-          color: newMessage.trim() ? "#fff" : "#808080",
+          backgroundColor: newMessage.trim()
+            ? theme.palette.primary.main
+            : theme.palette.action.hover,
+          color: newMessage.trim()
+            ? theme.palette.primary.contrastText
+            : theme.palette.text.secondary,
           borderRadius: "50%",
           width: "50px",
           height: "50px",
           marginLeft: "8px",
           "&:hover": {
-            backgroundColor: newMessage.trim() ? "#0073e6" : "#0084ff",
-            color: "#ffffff",
+            backgroundColor: newMessage.trim()
+              ? theme.palette.primary.dark
+              : theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
           },
         }}
       >

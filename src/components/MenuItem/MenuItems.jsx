@@ -1,7 +1,14 @@
 import React from "react";
 import { Menu, MenuItem, Switch, Box, Typography } from "@mui/material";
+import { useThemeContext } from "../../context/ThemeContext";
+const MenuItems = ({ anchorEl, handleClose, items, currentTheme }) => {
+  const { toggleTheme, theme } = useThemeContext();
 
-const MenuItems = ({ anchorEl, handleClose, items }) => {
+  const handleItemClick = (item) => {
+    if (item.onClick) item.onClick();
+    handleClose();
+  };
+
   return (
     <Menu
       anchorEl={anchorEl}
@@ -20,7 +27,11 @@ const MenuItems = ({ anchorEl, handleClose, items }) => {
         "& .MuiPaper-root": {
           width: "280px",
           backdropFilter: "blur(5px)",
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? theme.palette.background.paper
+              : "rgba(255, 255, 255, 0.8)",
+
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
           borderRadius: "20px",
         },
@@ -29,12 +40,21 @@ const MenuItems = ({ anchorEl, handleClose, items }) => {
       {items?.map((item, index) => (
         <MenuItem
           key={index}
-          onClick={handleClose}
+          onClick={() => handleItemClick(item)}
           sx={{ color: item.color || "inherit" }}
         >
           {item.icon && React.cloneElement(item.icon, { sx: { mr: 2 } })}
           {item.text}
-          {item.hasSwitch && <Switch sx={{ ml: "auto" }} />}
+          {item.hasSwitch && (
+            <Switch
+              checked={
+                item.text === "Night Mode"
+                  ? currentTheme === "dark"
+                  : item.switchState
+              }
+              sx={{ ml: "auto" }}
+            />
+          )}
         </MenuItem>
       ))}
       <Box sx={{ px: 2, py: 1 }}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Avatar, IconButton } from "@mui/material";
+import { Box, Typography, Avatar, IconButton, useTheme } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CallIcon from "@mui/icons-material/Call";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -15,6 +15,7 @@ import MenuItems from "../MenuItem/MenuItems";
 
 const ChatHeader = ({ chat }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const theme = useTheme();
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,7 +45,7 @@ const ChatHeader = ({ chat }) => {
         alignItems: "center",
         p: 1,
         borderBottom: "1px solid #ccc",
-        backgroundColor: "#fff",
+        backgroundColor: theme.palette.background.paper,
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
       }}
     >
@@ -70,13 +71,15 @@ const ChatHeader = ({ chat }) => {
         sx={{
           borderRadius: "50%",
           padding: "8px",
-          backgroundColor: isMenuOpen ? "#f5f5f5" : "transparent",
+          backgroundColor: isMenuOpen
+            ? theme.palette.action.hover
+            : "transparent",
           "&:hover": {
-            backgroundColor: "#f5f5f5",
+            backgroundColor: theme.palette.action.hover,
           },
         }}
       >
-        <MoreVertIcon sx={{ color: "grey" }} />
+        <MoreVertIcon sx={{ color: theme.palette.text.primary }} />
       </IconButton>
       <MenuItems
         anchorEl={anchorEl}
