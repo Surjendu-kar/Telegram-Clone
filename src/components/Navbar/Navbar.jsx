@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import MenuItems from "../MenuItems";
+import MenuItems from "../MenuItem/MenuItems";
 import SaveIcon from "@mui/icons-material/Save";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import StoryIcon from "@mui/icons-material/ImportContacts";

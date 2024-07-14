@@ -26,7 +26,7 @@ const MenuItems = ({ anchorEl, handleClose, items }) => {
         },
       }}
     >
-      {items.map((item, index) => (
+      {items?.map((item, index) => (
         <MenuItem
           key={index}
           onClick={handleClose}
