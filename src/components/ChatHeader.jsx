@@ -24,6 +24,8 @@ const ChatHeader = ({ chat }) => {
     setAnchorEl(null);
   };
 
+  const isMenuOpen = Boolean(anchorEl);
+
   const menuItems = [
     { text: "Add to contacts", icon: <PersonAddAlt1Icon /> },
     { text: "Video Call", icon: <VideoCallIcon /> },
@@ -59,8 +61,18 @@ const ChatHeader = ({ chat }) => {
       <IconButton>
         <CallIcon />
       </IconButton>
-      <IconButton onClick={handleMenuClick}>
-        <MoreVertIcon />
+      <IconButton
+        onClick={handleMenuClick}
+        sx={{
+          borderRadius: "50%",
+          padding: "8px",
+          backgroundColor: isMenuOpen ? "#f5f5f5" : "transparent",
+          "&:hover": {
+            backgroundColor: "#f5f5f5",
+          },
+        }}
+      >
+        <MoreVertIcon sx={{ color: "grey" }} />
       </IconButton>
       <MenuItems
         anchorEl={anchorEl}
