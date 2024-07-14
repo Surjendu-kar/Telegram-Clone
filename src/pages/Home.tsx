@@ -7,6 +7,10 @@ import Navbar from "../components/Navbar";
 const Home = () => {
   const [selectedChats, setSelectedChats] = useState(null);
 
+  const handleBack = () => {
+    setSelectedChats(null);
+  };
+
   return (
     <Grid container className="grid-container">
       <Grid
@@ -23,7 +27,7 @@ const Home = () => {
       </Grid>
       <Grid item xs={8} sx={{ height: "100vh", overflowY: "auto" }}>
         {selectedChats ? (
-          <ChatWindow chats={selectedChats} />
+          <ChatWindow chats={selectedChats} onBack={handleBack} />
         ) : (
           <Box>Select a chat to view messages</Box>
         )}

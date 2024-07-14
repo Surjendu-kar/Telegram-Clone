@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Typography, Avatar, Paper } from "@mui/material";
+import { Box, Typography, Avatar, Paper, IconButton } from "@mui/material";
 import dayjs from "dayjs";
 import MessageInput from "./MessageInput";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const ChatWindow = ({ chats }) => {
+const ChatWindow = ({ chats, onBack }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +23,7 @@ const ChatWindow = ({ chats }) => {
         allMessages.sort(
           (a, b) => new Date(a.created_at) - new Date(b.created_at)
         );
-        // console.log("Fetched Messages:", allMessages);
+        console.log("Fetched Messages:", allMessages);
 
         const groupedMessages = allMessages.reduce((acc, message) => {
           const date = dayjs(message.created_at).format("YYYY-MM-DD");
@@ -57,6 +59,27 @@ const ChatWindow = ({ chats }) => {
         position: "relative",
       }}
     >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          p: 1,
+          borderBottom: "1px solid #ccc",
+          backgroundColor: "#f5f5f5",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <IconButton onClick={onBack}>
+          <ArrowBackIcon />
+        </IconButton>
+        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center" }}>
+          {chats[0]?.creator.name || "Unknown"}
+        </Typography>
+        <IconButton>
+          <MoreVertIcon />
+        </IconButton>
+      </Box>
+
       <Box
         sx={{
           flexGrow: 1,
@@ -161,6 +184,7 @@ const ChatWindow = ({ chats }) => {
           left: 0,
           right: 0,
           backgroundColor: "background.paper",
+          boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.05)",
         }}
       >
         <MessageInput onSendMessage={handleSendMessage} />
