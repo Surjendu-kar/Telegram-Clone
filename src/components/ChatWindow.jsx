@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Box, Typography, Avatar, Paper, IconButton } from "@mui/material";
 import dayjs from "dayjs";
@@ -9,6 +9,14 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 const ChatWindow = ({ chats, onBack }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const messagesContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -46,6 +54,10 @@ const ChatWindow = ({ chats, onBack }) => {
     }
   }, [chats]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const handleSendMessage = (message) => {
     console.log("Send message:", message);
   };
@@ -59,6 +71,7 @@ const ChatWindow = ({ chats, onBack }) => {
         position: "relative",
       }}
     >
+      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -80,7 +93,9 @@ const ChatWindow = ({ chats, onBack }) => {
         </IconButton>
       </Box>
 
+      {/* Messages */}
       <Box
+        ref={messagesContainerRef}
         sx={{
           flexGrow: 1,
           overflowY: "auto",
@@ -177,6 +192,7 @@ const ChatWindow = ({ chats, onBack }) => {
         )}
       </Box>
 
+      {/* Message Input */}
       <Box
         sx={{
           position: "absolute",
