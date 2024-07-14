@@ -4,16 +4,17 @@ import axios from "axios";
 
 const ChatList = ({ onSelectChat }) => {
   const [chats, setChats] = useState([]);
+  const [selectedChatId, setSelectedChatId] = useState(null);
 
   useEffect(() => {
     const fetchChats = async () => {
       let allChats = [];
       try {
         // for (let page = 1; page <= 10; page++) {
-          const response = await axios.get(
-            `https://devapi.beyondchats.com/api/get_all_chats?page=1`
-          );
-          allChats = allChats.concat(response.data.data.data);
+        const response = await axios.get(
+          `https://devapi.beyondchats.com/api/get_all_chats?page=1`
+        );
+        allChats = allChats.concat(response.data.data.data);
         // }
         // console.log("Fetched Chats:", allChats);
 
@@ -34,15 +35,41 @@ const ChatList = ({ onSelectChat }) => {
     fetchChats();
   }, []);
 
+  const handleSelectChat = (chatGroup) => {
+    setSelectedChatId(chatGroup.user.id);
+    onSelectChat(chatGroup.chats);
+  };
+
   return (
     <List>
       {chats.map((chatGroup) => (
         <ListItem
           button
           key={chatGroup.user.id}
-          onClick={() => onSelectChat(chatGroup.chats)}
+          onClick={() => handleSelectChat(chatGroup)}
+          sx={{
+            borderRadius: "10px",
+            // mb: 1,
+            backgroundColor:
+              selectedChatId === chatGroup.user.id ? "primary.main" : "inherit",
+            color: selectedChatId === chatGroup.user.id ? "white" : "inherit",
+            "&:hover": {
+              backgroundColor:
+                selectedChatId === chatGroup.user.id
+                  ? "primary.dark"
+                  : "grey.200",
+              color: selectedChatId === chatGroup.user.id ? "white" : "inherit",
+            },
+          }}
         >
-          <Avatar>
+          <Avatar
+            sx={{
+              backgroundColor:
+                selectedChatId === chatGroup.user.id ? "white" : "primary.main",
+              color:
+                selectedChatId === chatGroup.user.id ? "primary.main" : "white",
+            }}
+          >
             {chatGroup.user.name ? chatGroup.user.name.charAt(0) : "U"}
           </Avatar>
           <Box sx={{ ml: 2 }}>

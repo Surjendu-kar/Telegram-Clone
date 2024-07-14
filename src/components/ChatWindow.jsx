@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Box, Typography, Avatar, Paper, IconButton } from "@mui/material";
+import { Box, Typography, Paper, IconButton } from "@mui/material";
 import dayjs from "dayjs";
 import MessageInput from "./MessageInput";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ChatHeader from "./ChatHeader";
 
 const ChatWindow = ({ chats, onBack }) => {
   const [messages, setMessages] = useState([]);
@@ -90,26 +89,7 @@ const ChatWindow = ({ chats, onBack }) => {
       }}
     >
       {/* Header */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          p: 1,
-          borderBottom: "1px solid #ccc",
-          backgroundColor: "#f5f5f5",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <IconButton onClick={onBack}>
-          <ArrowBackIcon />
-        </IconButton>
-        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center" }}>
-          {chats[0]?.creator.name || "Unknown"}
-        </Typography>
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
-      </Box>
+      <ChatHeader chat={chats[0]} />
 
       {/* Messages */}
       <Box
@@ -168,11 +148,6 @@ const ChatWindow = ({ chats, onBack }) => {
                         alignItems: "flex-start",
                       }}
                     >
-                      <Avatar sx={{ mr: 2 }}>
-                        {message.sender.name
-                          ? message.sender.name.charAt(0)
-                          : "U"}
-                      </Avatar>
                       <Paper
                         sx={{
                           p: 2,
