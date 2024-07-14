@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import isYesterday from "dayjs/plugin/isYesterday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import { useTheme } from "@mui/material/styles"; // import useTheme hook
+import { useTheme } from "@mui/material/styles";
 
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
@@ -128,7 +128,7 @@ const ChatList = ({ onSelectChat }) => {
         allChats.sort(
           (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
         );
-        console.log(allChats);
+        // console.log(allChats);
 
         const groupedChats = allChats.reduce((acc, chat) => {
           const userId = chat.creator.id;

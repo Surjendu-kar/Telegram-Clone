@@ -96,7 +96,7 @@ const ChatWindow = ({ chats, onBack }) => {
         allMessages.sort(
           (a, b) => new Date(a.created_at) - new Date(b.created_at)
         );
-        console.log("Fetched Messages:", allMessages);
+        // console.log("Fetched Messages:", allMessages);
 
         const groupedMessages = allMessages.reduce((acc, message) => {
           const date = dayjs(message.created_at).format("YYYY-MM-DD");
@@ -124,7 +124,7 @@ const ChatWindow = ({ chats, onBack }) => {
   }, [messages]);
 
   const handleSendMessage = (message) => {
-    console.log("Send message:", message);
+    // console.log("Send message:", message);
   };
 
   return (

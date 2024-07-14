@@ -1,6 +1,16 @@
 import React from "react";
-import { Menu, MenuItem, Switch, Box, Typography } from "@mui/material";
+import { Menu, MenuItem, Switch, Box, Typography, styled } from "@mui/material";
 import { useThemeContext } from "../../context/ThemeContext";
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  transition: 'background-color 0.3s, color 0.3s',
+  '&:hover': {
+    backgroundColor: theme.palette.mode === 'dark' 
+      ? theme.palette.action.hover 
+      : theme.palette.grey[100],
+  },
+}));
+
 const MenuItems = ({ anchorEl, handleClose, items, currentTheme }) => {
   const { toggleTheme, theme } = useThemeContext();
 
@@ -31,14 +41,13 @@ const MenuItems = ({ anchorEl, handleClose, items, currentTheme }) => {
             theme.palette.mode === "dark"
               ? theme.palette.background.paper
               : "rgba(255, 255, 255, 0.8)",
-
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
           borderRadius: "20px",
         },
       }}
     >
       {items?.map((item, index) => (
-        <MenuItem
+        <StyledMenuItem
           key={index}
           onClick={() => handleItemClick(item)}
           sx={{ color: item.color || "inherit" }}
@@ -55,7 +64,7 @@ const MenuItems = ({ anchorEl, handleClose, items, currentTheme }) => {
               sx={{ ml: "auto" }}
             />
           )}
-        </MenuItem>
+        </StyledMenuItem>
       ))}
       <Box sx={{ px: 2, py: 1 }}>
         <Typography variant="body2" color="textSecondary" textAlign={"center"}>
