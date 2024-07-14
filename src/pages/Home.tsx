@@ -35,8 +35,8 @@ const Home = () => {
           overflowY: "auto",
           backgroundImage:
             "url(https://web.telegram.org/a/chat-bg-pattern-dark.ad38368a9e8140d0ac7d.png)",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
+          backgroundSize: "contain",
+          backgroundRepeat: "repeat",
           backgroundPosition: "center",
         }}
       >

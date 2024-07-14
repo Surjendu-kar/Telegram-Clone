@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   TextField,
@@ -15,16 +15,15 @@ const InputBox = styled(Box)({
   borderTop: "1px solid #ccc",
   width: "100%",
   backgroundColor: "#ffffff",
-  borderRadius: "30px",
-  boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.05)",
+  borderRadius: "10px",
+  boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.09)",
   margin: "0 auto",
-  height: "45px",
+  height: "35px",
 });
 
 const StyledTextField = styled(TextField)({
+  flexGrow: 1,
   "& .MuiOutlinedInput-root": {
-    borderRadius: "20px",
-    backgroundColor: "#f0f0f0",
     "& fieldset": {
       border: "none",
     },
@@ -40,49 +39,64 @@ const StyledTextField = styled(TextField)({
   },
 });
 
+const HoverIconButton = styled(IconButton)(({ theme }) => ({
+  transition: "background-color 0.3s, color 0.3s",
+  "&:hover": {
+    backgroundColor: "#0084ff",
+    color: "#ffffff",
+  },
+}));
+
 const MessageInput = ({ onSendMessage }) => {
   const [newMessage, setNewMessage] = useState("");
 
   const handleSendMessage = () => {
-    onSendMessage(newMessage);
-    setNewMessage("");
+    if (newMessage.trim()) {
+      onSendMessage(newMessage);
+      setNewMessage("");
+    }
   };
 
   return (
-    <InputBox>
-      <IconButton sx={{ color: "#808080" }}>
-        <EmojiEmotions />
-      </IconButton>
-      <StyledTextField
-        fullWidth
-        placeholder="Message"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <IconButton sx={{ color: "#808080" }}>
-                <AttachFile />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-      <IconButton
+    <Box display={"flex"}>
+      <InputBox>
+        <HoverIconButton sx={{ color: "#808080" }}>
+          <EmojiEmotions />
+        </HoverIconButton>
+        <StyledTextField
+          fullWidth
+          placeholder="Message"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <HoverIconButton sx={{ color: "#808080" }}>
+                  <AttachFile />
+                </HoverIconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </InputBox>
+      <HoverIconButton
         onClick={handleSendMessage}
         sx={{
-          backgroundColor: "#0084ff",
-          color: "white",
+          backgroundColor: newMessage.trim() ? "#0084ff" : "#f0f0f0",
+          color: newMessage.trim() ? "#fff" : "#808080",
           borderRadius: "50%",
+          width: "50px",
+          height: "50px",
           marginLeft: "8px",
+          "&:hover": {
+            backgroundColor: newMessage.trim() ? "#0073e6" : "#0084ff",
+            color: "#ffffff",
+          },
         }}
       >
-        <Send />
-      </IconButton>
-      <IconButton sx={{ color: "#808080", marginLeft: "8px" }}>
-        <Mic />
-      </IconButton>
-    </InputBox>
+        {newMessage.trim() ? <Send /> : <Mic />}
+      </HoverIconButton>
+    </Box>
   );
 };
 
