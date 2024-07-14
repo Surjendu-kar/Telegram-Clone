@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Box, Typography, Paper, IconButton, styled } from "@mui/material";
+import { useEffect, useState, useRef } from "react";
+import { Box, IconButton, styled } from "@mui/material";
 import dayjs from "dayjs";
 import MessageInput from "./MessageInput";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -23,12 +23,14 @@ const MessagesContainer = styled(Box)({
 const ScrollButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
   bottom: "80px",
-  right: "30px",
+  right: "140px",
   backgroundColor: theme.palette.background.paper,
-  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+  boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.1)",
   "&:hover": {
     backgroundColor: theme.palette.background.paper,
   },
+  height: "50px",
+  width: "50px",
 }));
 
 const InputContainer = styled(Box)({
