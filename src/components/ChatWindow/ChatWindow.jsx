@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Box, IconButton, styled } from "@mui/material";
+import { Box, IconButton, styled, useTheme } from "@mui/material";
 import dayjs from "dayjs";
 import MessageInput from "./MessageInput";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -24,11 +24,21 @@ const ScrollButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
   bottom: "80px",
   right: "140px",
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? theme.palette.grey[800]
+      : theme.palette.background.paper,
   boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.1)",
   "&:hover": {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? theme.palette.grey[700]
+        : theme.palette.background.paper,
   },
+  color:
+    theme.palette.mode === "dark"
+      ? theme.palette.common.white
+      : theme.palette.text.primary,
   height: "50px",
   width: "50px",
 }));
@@ -50,6 +60,7 @@ const ChatWindow = ({ chats, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const messagesContainerRef = useRef(null);
+  const theme = useTheme();
 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
@@ -127,15 +138,15 @@ const ChatWindow = ({ chats, onBack }) => {
       </MessagesContainer>
 
       {!isAtBottom && (
-        <ScrollButton onClick={scrollToBottom}>
+        <ScrollButton onClick={scrollToBottom} theme={theme}>
           <KeyboardArrowDownIcon />
         </ScrollButton>
       )}
 
       {/* Message Input */}
-      <InputContainer>
-        <MessageInput onSendMessage={handleSendMessage} />
-      </InputContainer>
+      {/* <InputContainer> */}
+      <MessageInput onSendMessage={handleSendMessage} />
+      {/* </InputContainer> */}
     </ChatContainer>
   );
 };

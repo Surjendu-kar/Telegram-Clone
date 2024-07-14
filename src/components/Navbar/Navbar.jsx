@@ -13,9 +13,11 @@ import BugReportIcon from "@mui/icons-material/BugReport";
 import InstallMobileIcon from "@mui/icons-material/InstallMobile";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import { useThemeContext } from "../../context/ThemeContext";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { toggleTheme, theme } = useThemeContext();
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -32,7 +34,13 @@ const Navbar = () => {
     { text: "Contacts", icon: <ContactsIcon /> },
     { text: "My Stories", icon: <StoryIcon /> },
     { text: "Settings", icon: <SettingsIcon /> },
-    { text: "Night Mode", icon: <NightlightIcon />, hasSwitch: true },
+    {
+      text: "Night Mode",
+      icon: <NightlightIcon />,
+      hasSwitch: true,
+      switchState: theme.palette.mode === "dark",
+      onClick: toggleTheme,
+    },
     { text: "Animations", icon: <AnimationIcon />, hasSwitch: true },
     { text: "Telegram Features", icon: <TelegramIcon /> },
     { text: "Report a Bug", icon: <BugReportIcon /> },
@@ -91,6 +99,7 @@ const Navbar = () => {
         anchorEl={anchorEl}
         handleClose={handleMenuClose}
         items={menuItems}
+        currentTheme={theme.palette.mode}
       />
     </Box>
   );

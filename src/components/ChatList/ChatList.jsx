@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import isYesterday from "dayjs/plugin/isYesterday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import { useTheme } from "@mui/material/styles"; // import useTheme hook
 
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
@@ -18,10 +19,29 @@ const StyledListItem = styled(ListItem)(({ theme, isSelected }) => ({
   transition: "all 0.5s ease",
 
   "&:hover": {
-    backgroundColor: isSelected
-      ? theme.palette.primary.dark
-      : theme.palette.grey[200],
-    color: isSelected ? "white" : "inherit",
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? theme.palette.grey[800]
+        : theme.palette.grey[200],
+    "& .MuiTypography-root": {
+      color: theme.palette.text.primary,
+    },
+    "& .MuiAvatar-root": {
+      backgroundColor: theme.palette.primary.main,
+      color: "white",
+    },
+  },
+
+  "&.Mui-selected, &.Mui-selected:hover": {
+    backgroundColor: theme.palette.primary.main,
+    color: "#fff",
+    "& .MuiTypography-root": {
+      color: "#fff",
+    },
+    "& .MuiAvatar-root": {
+      backgroundColor: "#fff",
+      color: theme.palette.primary.main,
+    },
   },
 }));
 
@@ -31,6 +51,7 @@ const StyledAvatar = styled(Avatar)(({ theme, isSelected }) => ({
   width: 55,
   height: 55,
   fontSize: "1.5rem",
+  transition: "all 0.5s ease",
 }));
 
 const ContentBox = styled(Box)({
@@ -47,31 +68,34 @@ const HeaderBox = styled(Box)({
   justifyContent: "space-between",
   alignItems: "center",
 });
-
-const UserName = styled(Typography)({
+const UserName = styled(Typography)(({ theme, isSelected }) => ({
   variant: "subtitle1",
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
   flexGrow: 1,
-});
+  color: isSelected ? "#fff" : theme.palette.text.primary,
+  transition: "color 0.5s ease",
+}));
 
-const LastMessage = styled(Typography)({
+const LastMessage = styled(Typography)(({ theme, isSelected }) => ({
   variant: "body2",
-  color: "rgba(0, 0, 0, 0.6)",
+  color: isSelected ? "#fff" : theme.palette.text.secondary,
   fontSize: "0.875rem",
   overflow: "hidden",
   whiteSpace: "nowrap",
   textOverflow: "ellipsis",
-});
+  transition: "color 0.5s ease",
+}));
 
-const LastMessageTime = styled(Typography)({
+const LastMessageTime = styled(Typography)(({ theme, isSelected }) => ({
   variant: "caption",
-  color: "rgba(0, 0, 0, 0.45)",
+  color: isSelected ? "#fff" : theme.palette.text.disabled,
   fontSize: "0.75rem",
   marginLeft: "8px",
   flexShrink: 0,
-});
+  transition: "color 0.5s ease",
+}));
 
 const formatTime = (timestamp) => {
   const now = dayjs();
@@ -93,6 +117,7 @@ const formatTime = (timestamp) => {
 const ChatList = ({ onSelectChat }) => {
   const [chats, setChats] = useState([]);
   const [selectedChatId, setSelectedChatId] = useState(null);
+  const theme = useTheme(); // use the theme
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -161,20 +186,38 @@ const ChatList = ({ onSelectChat }) => {
           key={chatGroup.user.id}
           onClick={() => handleSelectChat(chatGroup)}
           isSelected={selectedChatId === chatGroup.user.id}
+          selected={selectedChatId === chatGroup.user.id}
+          theme={theme}
         >
-          <StyledAvatar isSelected={selectedChatId === chatGroup.user.id}>
+          <StyledAvatar
+            isSelected={selectedChatId === chatGroup.user.id}
+            theme={theme}
+          >
             {chatGroup.user.name ? chatGroup.user.name.charAt(0) : "U"}
           </StyledAvatar>
           <ContentBox>
             <HeaderBox>
-              <UserName>{chatGroup.user.name || "Deleted User"}</UserName>
+              <UserName
+                theme={theme}
+                isSelected={selectedChatId === chatGroup.user.id}
+              >
+                {chatGroup.user.name || "Deleted User"}
+              </UserName>
               {chatGroup.lastMessageTime && (
-                <LastMessageTime>
+                <LastMessageTime
+                  theme={theme}
+                  isSelected={selectedChatId === chatGroup.user.id}
+                >
                   {formatTime(chatGroup.lastMessageTime)}
                 </LastMessageTime>
               )}
             </HeaderBox>
-            <LastMessage>{chatGroup.lastMessage || "No messages"}</LastMessage>
+            <LastMessage
+              theme={theme}
+              isSelected={selectedChatId === chatGroup.user.id}
+            >
+              {chatGroup.lastMessage || "No messages"}
+            </LastMessage>
           </ContentBox>
         </StyledListItem>
       ))}
