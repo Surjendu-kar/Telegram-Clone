@@ -1,34 +1,39 @@
 import React from "react";
 import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { Box, Typography, Paper, styled } from "@mui/material";
 
-export const MainContainer = styled(Box)({
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
+
+const MainContainer = styled(Box)({
   width: "60%",
   margin: "0 auto",
 });
 
-export const DateBox = styled(Box)({
+const DateBox = styled(Box)({
   display: "flex",
   justifyContent: "center",
   width: "100%",
   margin: "1rem 0",
 });
 
-export const DateTypography = styled(Typography)({
+const DateTypography = styled(Typography)({
   fontSize: "0.75rem",
   backgroundColor: "#eeeeee",
-  padding: "0.5rem 1rem",
-  borderRadius: "7px",
+  padding: "0.25rem 0.5rem",
+  borderRadius: "20px",
   display: "inline-block",
 });
 
-export const MessageBox = styled(Box)(({ theme }) => ({
+const MessageBox = styled(Box)(({ theme }) => ({
   display: "flex",
   marginBottom: "1rem",
   width: "100%",
 }));
 
-export const PaperContainer = styled(Paper)({
+const PaperContainer = styled(Paper)({
   padding: "16px",
   backgroundColor: "#e0f7fa",
   borderRadius: "8px",
@@ -36,20 +41,38 @@ export const PaperContainer = styled(Paper)({
   width: "100%",
 });
 
-export const MessageContent = styled(Box)({
+const MessageContent = styled(Box)({
   display: "flex",
   flexDirection: "column",
   width: "100%",
 });
 
-export const MessageText = styled(Typography)({
-});
+const MessageText = styled(Typography)({});
 
-export const TimeStamp = styled(Typography)({
+const TimeStamp = styled(Typography)({
   alignSelf: "flex-end",
   fontSize: "0.75rem",
   color: "rgba(0, 0, 0, 0.6)",
 });
+
+const formatDate = (date) => {
+  const now = dayjs();
+  const messageDate = dayjs(date);
+
+  if (messageDate.isSame(now, "year")) {
+    if (messageDate.isSame(now, "day")) {
+      return "Today";
+    } else if (messageDate.isSame(now.subtract(1, "day"), "day")) {
+      return "Yesterday";
+    } else if (messageDate.isSame(now.subtract(1, "week"), "week")) {
+      return messageDate.format("dddd");
+    } else {
+      return messageDate.format("MMMM D");
+    }
+  } else {
+    return messageDate.format("MMMM D, YYYY");
+  }
+};
 
 const ShowMessage = ({ messages, loading }) => {
   if (loading) {
@@ -67,7 +90,7 @@ const ShowMessage = ({ messages, loading }) => {
         .map((date) => (
           <React.Fragment key={date}>
             <DateBox>
-              <DateTypography>{date}</DateTypography>
+              <DateTypography>{formatDate(date)}</DateTypography>
             </DateBox>
             {messages[date].map((message) => (
               <MessageBox
