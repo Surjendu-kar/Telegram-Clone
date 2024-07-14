@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Tabs, Tab, IconButton } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Navbar = () => {
   const [value, setValue] = React.useState(0);
@@ -18,14 +19,13 @@ const Navbar = () => {
         borderBottom: "1px solid #ccc",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h6">Telegram</Typography>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <IconButton>
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center" }}>
+          Telegram
+        </Typography>
         <IconButton>
           <SearchIcon />
         </IconButton>
