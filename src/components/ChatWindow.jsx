@@ -5,10 +5,12 @@ import dayjs from "dayjs";
 import MessageInput from "./MessageInput";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const ChatWindow = ({ chats, onBack }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAtBottom, setIsAtBottom] = useState(true);
   const messagesContainerRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -17,6 +19,22 @@ const ChatWindow = ({ chats, onBack }) => {
         messagesContainerRef.current.scrollHeight;
     }
   };
+
+  const checkIfAtBottom = () => {
+    if (messagesContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } =
+        messagesContainerRef.current;
+      const isBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
+      setIsAtBottom(isBottom);
+    }
+  };
+  useEffect(() => {
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", checkIfAtBottom);
+      return () => container.removeEventListener("scroll", checkIfAtBottom);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -191,6 +209,23 @@ const ChatWindow = ({ chats, onBack }) => {
           <Typography variant="body1">No messages</Typography>
         )}
       </Box>
+      {!isAtBottom && (
+        <IconButton
+          onClick={scrollToBottom}
+          sx={{
+            position: "absolute",
+            bottom: 80,
+            right: 30,
+            backgroundColor: "background.paper",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+            "&:hover": {
+              backgroundColor: "background.paper",
+            },
+          }}
+        >
+          <KeyboardArrowDownIcon />
+        </IconButton>
+      )}
 
       {/* Message Input */}
       <Box
