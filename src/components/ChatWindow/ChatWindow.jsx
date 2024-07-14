@@ -41,6 +41,12 @@ const ScrollButton = styled(IconButton)(({ theme }) => ({
       : theme.palette.text.primary,
   height: "50px",
   width: "50px",
+  [theme.breakpoints.down("lg")]: {},
+  [theme.breakpoints.down("md")]: {},
+  [theme.breakpoints.down("sm")]: {
+    bottom: "80px",
+    right: "20px",
+  },
 }));
 
 const InputContainer = styled(Box)({

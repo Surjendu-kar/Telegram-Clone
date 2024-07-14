@@ -9,6 +9,18 @@ import {
 } from "@mui/material";
 import { AttachFile, Send, Mic, EmojiEmotions } from "@mui/icons-material";
 
+const MainContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  width: "60%",
+  margin: "0.5rem auto 1rem",
+  alignItems: "center",
+
+  [theme.breakpoints.down("sm")]: {
+    width: "90%",
+    margin: "0.15rem auto 0.75rem",
+  },
+}));
+
 const InputBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -59,12 +71,7 @@ const MessageInput = ({ onSendMessage }) => {
   };
 
   return (
-    <Box
-      display={"flex"}
-      width={"60%"}
-      margin={"0 auto"}
-      sx={{ display: "flex", alignItems: "center", mb: "1rem" }}
-    >
+    <MainContainer>
       <InputBox theme={theme}>
         <HoverIconButton sx={{ color: theme.palette.text.secondary }}>
           <EmojiEmotions />
@@ -109,7 +116,7 @@ const MessageInput = ({ onSendMessage }) => {
       >
         {newMessage.trim() ? <Send /> : <Mic />}
       </HoverIconButton>
-    </Box>
+    </MainContainer>
   );
 };
 

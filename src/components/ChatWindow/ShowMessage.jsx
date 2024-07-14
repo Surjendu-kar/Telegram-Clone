@@ -11,6 +11,11 @@ const MainContainer = styled(Box)(({ theme }) => ({
   width: "60%",
   margin: "0 auto",
   backgroundColor: "transparent",
+  [theme.breakpoints.down("lg")]: {},
+  [theme.breakpoints.down("md")]: {},
+  [theme.breakpoints.down("sm")]: {
+    width: "90%",
+  },
 }));
 const DateBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -31,6 +36,9 @@ const DateTypography = styled(Typography)(({ theme }) => ({
     theme.palette.mode === "dark"
       ? theme.palette.common.white
       : theme.palette.text.primary,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "0.65rem",
+  },
 }));
 
 const MessageBox = styled(Box)(({ theme }) => ({
@@ -47,6 +55,9 @@ const PaperContainer = styled(Paper)(({ theme }) => ({
   borderRadius: "8px",
   wordBreak: "break-word",
   width: "100%",
+  [theme.breakpoints.down("sm")]: {
+    padding: "12px",
+  },
 }));
 
 const MessageContent = styled(Box)(({ theme }) => ({
@@ -58,6 +69,9 @@ const MessageContent = styled(Box)(({ theme }) => ({
 
 const MessageText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "0.85rem",
+  },
 }));
 
 const TimeStamp = styled(Typography)(({ theme }) => ({
@@ -65,6 +79,9 @@ const TimeStamp = styled(Typography)(({ theme }) => ({
   fontSize: "0.75rem",
   // color: "rgba(0, 0, 0, 0.6)",
   color: theme.palette.text.secondary,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "0.65rem",
+  },
 }));
 
 const formatDate = (date) => {
