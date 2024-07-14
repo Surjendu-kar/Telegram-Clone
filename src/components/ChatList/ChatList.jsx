@@ -39,20 +39,32 @@ const ChatList = ({ onSelectChat }) => {
 
   useEffect(() => {
     const fetchChats = async () => {
-      let allChats = [];
       try {
         const response = await getAllChats();
-        allChats = allChats.concat(response.data.data.data);
+        const allChats = response.data.data.data;
+
+        allChats.sort(
+          (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+        );
+        console.log(allChats);
 
         const groupedChats = allChats.reduce((acc, chat) => {
-          const userName = chat.creator.name || "Unknown User";
-          if (!acc[userName]) {
-            acc[userName] = { user: chat.creator, chats: [] };
+          const userId = chat.creator.id;
+          if (!acc[userId]) {
+            acc[userId] = { user: chat.creator, chats: [] };
           }
-          acc[userName].chats.push(chat);
+          acc[userId].chats.push(chat);
           return acc;
         }, {});
-        setChats(Object.values(groupedChats));
+
+        const sortedGroupedChats = Object.keys(groupedChats)
+          .map((userId) => groupedChats[userId])
+          .sort(
+            (a, b) =>
+              new Date(b.chats[0].updated_at) - new Date(a.chats[0].updated_at)
+          );
+
+        setChats(sortedGroupedChats);
       } catch (error) {
         console.error(error);
       }
@@ -70,7 +82,6 @@ const ChatList = ({ onSelectChat }) => {
     <List>
       {chats.map((chatGroup) => (
         <StyledListItem
-          button
           key={chatGroup.user.id}
           onClick={() => handleSelectChat(chatGroup)}
           isSelected={selectedChatId === chatGroup.user.id}
@@ -80,7 +91,6 @@ const ChatList = ({ onSelectChat }) => {
           </StyledAvatar>
           <ContentBox>
             <UserName>{chatGroup.user.name || "Unknown User"}</UserName>
-            {/* <Typography variant="body2">{chatGroup.user.email}</Typography> */}
             <Typography variant="body2">
               {chatGroup.chats.reduce((acc, chat) => acc + chat.msg_count, 0)}{" "}
               messages
