@@ -11,7 +11,7 @@ import ReportIcon from "@mui/icons-material/Report";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import BlockIcon from "@mui/icons-material/Block";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MenuItems from "./MenuItems";
+import MenuItems from "../MenuItem/MenuItems";
 
 const ChatHeader = ({ chat }) => {
   const [anchorEl, setAnchorEl] = useState(null);

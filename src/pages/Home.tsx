@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Box } from "@mui/material";
-import ChatList from "../components/ChatList";
-import ChatWindow from "../components/ChatWindow";
+import ChatList from "../components/ChatList/ChatList";
+import ChatWindow from "../components/ChatWindow/ChatWindow";
 import Navbar from "../components/Navbar/Navbar";
 
 const Home = () => {
@@ -20,11 +20,13 @@ const Home = () => {
           borderRight: "1px solid #ccc",
           height: "100vh",
           overflowY: "auto",
+          padding: "0 0.5rem",
         }}
       >
         <Navbar />
         <ChatList onSelectChat={setSelectedChats} />
       </Grid>
+
       <Grid
         item
         xs={9}
