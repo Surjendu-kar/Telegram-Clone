@@ -15,6 +15,7 @@ import {
   Collapse,
 } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import AddIcon from "@mui/icons-material/Add";
@@ -46,7 +47,11 @@ const AnchorTemporaryDrawer = ({ open, onClose, items }) => {
           onClick={toggleTheme}
           sx={{ position: "absolute", top: 8, right: 8 }}
         >
-          <Brightness4Icon />
+          {theme.palette.mode === "dark" ? (
+            <LightModeIcon />
+          ) : (
+            <Brightness4Icon />
+          )}
         </IconButton>
         <Box
           sx={{
