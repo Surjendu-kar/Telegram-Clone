@@ -101,7 +101,7 @@ const formatTime = (timestamp) => {
   const now = dayjs();
   const date = dayjs(timestamp);
 
-  if (date.isToday() || date.isYesterday()) {
+  if (date.isToday() ) {
     return date.format("hh:mm A");
   } else if (now.diff(date, "day") < 7) {
     return date.format("dddd");
@@ -117,7 +117,7 @@ const formatTime = (timestamp) => {
 const ChatList = ({ onSelectChat }) => {
   const [chats, setChats] = useState([]);
   const [selectedChatId, setSelectedChatId] = useState(null);
-  const theme = useTheme(); // use the theme
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchChats = async () => {
