@@ -30,7 +30,7 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
   },
 }));
 
-const MenuItems = ({ anchorEl, handleClose, items, currentTheme }) => {
+const MenuItems = ({ anchorEl, handleClose, items, currentTheme, showVer }) => {
   const { toggleTheme, theme } = useThemeContext();
 
   const handleItemClick = (item) => {
@@ -87,25 +87,27 @@ const MenuItems = ({ anchorEl, handleClose, items, currentTheme }) => {
           )}
         </StyledMenuItem>
       ))}
-      <Box
-        sx={{
-          px: 2,
-          py: 1,
-        }}
-      >
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          textAlign={"center"}
+      {showVer && (
+        <Box
           sx={{
-            [theme.breakpoints.down("sm")]: {
-              fontSize: "0.75rem",
-            },
+            px: 2,
+            py: 1,
           }}
         >
-          Telegram Web A 10.9.7
-        </Typography>
-      </Box>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            textAlign={"center"}
+            sx={{
+              [theme.breakpoints.down("sm")]: {
+                fontSize: "0.75rem",
+              },
+            }}
+          >
+            Telegram Web A 10.9.7
+          </Typography>
+        </Box>
+      )}
     </StyledMenu>
   );
 };

@@ -24,7 +24,7 @@ const MainContainer = styled(Box)(({ theme }) => ({
 const InputBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  padding: "0.75rem",
+  padding: "0.75rem 0rem 0.75rem 0.75rem",
   width: "100%",
   backgroundColor:
     theme.palette.mode === "dark" ? "#212121" : theme.palette.background.paper,
@@ -84,7 +84,9 @@ const MessageInput = ({ onSendMessage }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <HoverIconButton sx={{ color: theme.palette.text.secondary }}>
+                <HoverIconButton
+                  sx={{ color: theme.palette.text.secondary, rotate: "40deg" }}
+                >
                   <AttachFile />
                 </HoverIconButton>
               </InputAdornment>

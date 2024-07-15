@@ -151,6 +151,7 @@ const Navbar = () => {
           handleClose={handleMenuClose}
           items={menuItems}
           currentTheme={theme.palette.mode}
+          showVer
         />
       )}
     </Box>
