@@ -113,7 +113,10 @@ const ShowMessage = ({ messages, loading }) => {
 
   if (loading) {
     return (
-      <Typography variant="body1" sx={{ color: theme.palette.text.primary }}>
+      <Typography
+        variant="body1"
+        sx={{ color: theme.palette.text.primary, textAlign: "center" }}
+      >
         Loading...
       </Typography>
     );
