@@ -37,7 +37,7 @@ const Home = () => {
             item
             xs={12}
             sx={{
-              borderRight: "1px solid #ccc",
+              // borderRight: "1px solid #ccc",
               height: "100vh",
               overflowY: "auto",
               padding: "0 0.5rem",
@@ -53,10 +53,14 @@ const Home = () => {
             item
             xs={3}
             sx={{
-              borderRight: "1px solid #ccc",
+              // borderRight: "1px solid #ccc",
               height: "100vh",
               overflowY: "auto",
               padding: "0 0.5rem",
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? "rgb(29 29 29)"
+                  : theme.palette.background.paper,
             }}
           >
             <Navbar />

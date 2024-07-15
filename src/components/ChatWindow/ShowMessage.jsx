@@ -55,7 +55,7 @@ const PaperContainer = styled(Paper)(({ theme, isBeyondChat }) => ({
       ? "rgb(118,106,200)"
       : "#dbffcc"
     : theme.palette.mode === "dark"
-    ? "rgb(46,47,47)"
+    ? "rgb(24 24 24)"
     : theme.palette.common.white,
   borderRadius: "10px",
   wordBreak: "break-word",

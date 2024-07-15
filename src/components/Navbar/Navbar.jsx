@@ -35,7 +35,7 @@ const Navbar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { toggleTheme, theme } = useThemeContext();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const searchVal = searchParams.get(CONSTANT.SEARCH) ?? '';
+  const searchVal = searchParams.get(CONSTANT.SEARCH) ?? "";
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -120,7 +120,8 @@ const Navbar = () => {
               </InputAdornment>
             ),
             sx: {
-              backgroundColor: "#f5f5f5",
+              backgroundColor:
+                theme.palette.mode === "dark" ? "rgb(46, 47, 47)" : "#f5f5f5",
               borderRadius: "20px",
               height: "45px",
               border: "none",

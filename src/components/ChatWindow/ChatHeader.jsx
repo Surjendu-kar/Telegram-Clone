@@ -59,8 +59,11 @@ const ChatHeader = ({ chat, onBack }) => {
         display: "flex",
         alignItems: "center",
         p: 1,
-        borderBottom: "1px solid #ccc",
-        backgroundColor: theme.palette.background.paper,
+        // borderBottom: "1px solid #ccc",
+        backgroundColor:
+          theme.palette.mode === "dark"
+            ? "rgb(29 29 29)"
+            : theme.palette.background.paper,
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
       }}
     >

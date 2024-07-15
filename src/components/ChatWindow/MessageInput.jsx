@@ -27,7 +27,10 @@ const InputBox = styled(Box)(({ theme }) => ({
   padding: "0.75rem",
   borderTop: "1px solid #ccc",
   width: "100%",
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgb(46, 47, 47)"
+      : theme.palette.background.paper,
   borderRadius: "10px",
   boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.09)",
   height: "50px",

@@ -16,15 +16,22 @@ dayjs.extend(localizedFormat);
 const StyledListItem = styled(ListItem)(({ theme, isSelected }) => ({
   cursor: "pointer",
   borderRadius: "15px",
-  backgroundColor: isSelected ? theme.palette.primary.main : "inherit",
+  backgroundColor: isSelected
+    ? theme.palette.mode === "dark"
+      ? "rgb(118,106,200)"
+      : "#3aa7ff"
+    : "inherit",
   color: isSelected ? "white" : "inherit",
   transition: "all 0.5s ease",
 
   "&:hover": {
-    backgroundColor:
-      theme.palette.mode === "dark"
-        ? theme.palette.grey[800]
-        : theme.palette.grey[200],
+    backgroundColor: isSelected
+      ? theme.palette.mode === "dark"
+        ? "rgb(118,106,200)"
+        : "#3aa7ff"
+      : theme.palette.mode === "dark"
+      ? theme.palette.grey[800]
+      : theme.palette.grey[200],
     "& .MuiTypography-root": {
       color: theme.palette.text.primary,
     },
@@ -35,14 +42,15 @@ const StyledListItem = styled(ListItem)(({ theme, isSelected }) => ({
   },
 
   "&.Mui-selected, &.Mui-selected:hover": {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor:
+      theme.palette.mode === "dark" ? "rgb(118,106,200)" : "#3aa7ff",
     color: "#fff",
     "& .MuiTypography-root": {
       color: "#fff",
     },
     "& .MuiAvatar-root": {
       backgroundColor: "#fff",
-      color: theme.palette.primary.main,
+      color: theme.palette.mode === "dark" ? "rgb(118,106,200)" : "#3aa7ff",
     },
   },
 }));
@@ -162,7 +170,6 @@ const ChatList = ({ onSelectChat }) => {
     each.user.name?.toLowerCase().includes(searchVal.toLowerCase())
   );
 
-
   return (
     <List>
       {filteredChats.map((chatGroup, index) => (
@@ -207,7 +214,6 @@ const ChatList = ({ onSelectChat }) => {
         </StyledListItem>
       ))}
     </List>
-
   );
 };
 
