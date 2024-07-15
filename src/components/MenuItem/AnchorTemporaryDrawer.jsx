@@ -35,7 +35,10 @@ const AnchorTemporaryDrawer = ({ open, onClose, items }) => {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 350 }}
+      sx={{
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 350,
+        overflow: "hidden",
+      }}
       role="presentation"
     >
       <Box sx={{ position: "relative", p: 2 }}>
@@ -72,7 +75,7 @@ const AnchorTemporaryDrawer = ({ open, onClose, items }) => {
               <ListItemIcon>
                 <Avatar>B</Avatar>
               </ListItemIcon>
-              <ListItemText primary="BeyondChat"sx={{ paddingLeft: "7px" }} />
+              <ListItemText primary="BeyondChat" sx={{ paddingLeft: "7px" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ paddingLeft: "7px" }}>
