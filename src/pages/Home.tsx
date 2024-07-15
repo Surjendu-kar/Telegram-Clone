@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, useMediaQuery, useTheme, Box } from "@mui/material";
 import ChatList from "../components/ChatList/ChatList";
 import ChatWindow from "../components/ChatWindow/ChatWindow";
 import Navbar from "../components/Navbar/Navbar";
@@ -14,7 +14,7 @@ const Home = () => {
   };
 
   return (
-    <Grid container className="grid-container" sx={{ height: "100vh" }}>
+    <Grid container sx={{ height: "100vh" }}>
       {isMobile ? (
         selectedChats ? (
           <Grid
@@ -36,15 +36,14 @@ const Home = () => {
           <Grid
             item
             xs={12}
-            sx={{
-              // borderRight: "1px solid #ccc",
-              height: "100vh",
-              overflowY: "auto",
-              padding: "0 0.5rem",
-            }}
+            sx={{ height: "100vh", display: "flex", flexDirection: "column" }}
           >
-            <Navbar />
-            <ChatList onSelectChat={setSelectedChats} />
+            <Box sx={{ position: "sticky", top: 0, zIndex: 1 }}>
+              <Navbar />
+            </Box>
+            <Box sx={{ flexGrow: 1, overflowY: "auto", padding: "0 0.5rem" }}>
+              <ChatList onSelectChat={setSelectedChats} />
+            </Box>
           </Grid>
         )
       ) : (
@@ -53,18 +52,21 @@ const Home = () => {
             item
             xs={3}
             sx={{
-              // borderRight: "1px solid #ccc",
               height: "100vh",
-              overflowY: "auto",
-              padding: "0 0.5rem",
+              display: "flex",
+              flexDirection: "column",
               backgroundColor:
                 theme.palette.mode === "dark"
                   ? "rgb(29 29 29)"
                   : theme.palette.background.paper,
             }}
           >
-            <Navbar />
-            <ChatList onSelectChat={setSelectedChats} />
+            <Box sx={{ position: "sticky", top: 0, zIndex: 1 }}>
+              <Navbar />
+            </Box>
+            <Box sx={{ flexGrow: 1, overflowY: "auto", padding: "0 0.5rem" }}>
+              <ChatList onSelectChat={setSelectedChats} />
+            </Box>
           </Grid>
           <Grid
             item

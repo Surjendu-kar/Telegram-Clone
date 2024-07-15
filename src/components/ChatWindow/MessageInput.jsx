@@ -27,9 +27,7 @@ const InputBox = styled(Box)(({ theme }) => ({
   padding: "0.75rem",
   width: "100%",
   backgroundColor:
-    theme.palette.mode === "dark"
-      ? "#212121"
-      : theme.palette.background.paper,
+    theme.palette.mode === "dark" ? "#212121" : theme.palette.background.paper,
   borderRadius: "10px",
   boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.09)",
   height: "50px",
@@ -49,7 +47,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     },
   },
   "& .MuiInputBase-input": {
-    padding: "15px 14px",
+    padding: "15px 14px 15px 2px",
   },
 }));
 

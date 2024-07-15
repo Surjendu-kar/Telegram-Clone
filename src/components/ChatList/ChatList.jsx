@@ -31,6 +31,7 @@ const StyledListItem = styled(ListItem)(({ theme, isSelected }) => ({
     : "inherit",
   color: isSelected ? "white" : "inherit",
   transition: "all 0.5s ease",
+  paddingRight: "0",
 
   "&:hover": {
     backgroundColor: isSelected
@@ -74,7 +75,7 @@ const StyledAvatar = styled(Avatar)(({ theme, isSelected }) => ({
 
 const ContentBox = styled(Box)({
   width: "100%",
-  margin: "0 0.5rem",
+  margin: "0 0.5rem ",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
