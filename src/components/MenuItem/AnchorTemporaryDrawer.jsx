@@ -37,7 +37,7 @@ const AnchorTemporaryDrawer = ({ open, onClose, items }) => {
   const list = (anchor) => (
     <Box
       sx={{
-        width: anchor === "top" || anchor === "bottom" ? "auto" : 350,
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 300,
         overflow: "hidden",
       }}
       role="presentation"

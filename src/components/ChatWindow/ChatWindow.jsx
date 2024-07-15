@@ -50,18 +50,6 @@ const ScrollButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const InputContainer = styled(Box)({
-  position: "relative",
-  bottom: 0,
-  left: 0,
-  right: 0,
-  backgroundColor: "#ffffff",
-  // boxShadow: "0px 4px 0px rgba(0, 0, 0, 0.08)",
-  width: "60%",
-  margin: "0.5rem auto 1rem",
-  borderRadius: "10px",
-});
-
 const ChatWindow = ({ chats, onBack }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -151,9 +139,7 @@ const ChatWindow = ({ chats, onBack }) => {
       )}
 
       {/* Message Input */}
-      {/* <InputContainer> */}
       <MessageInput onSendMessage={handleSendMessage} />
-      {/* </InputContainer> */}
     </ChatContainer>
   );
 };
