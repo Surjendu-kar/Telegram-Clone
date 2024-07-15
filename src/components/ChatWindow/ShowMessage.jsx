@@ -14,7 +14,7 @@ const MainContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("lg")]: {},
   [theme.breakpoints.down("md")]: {},
   [theme.breakpoints.down("sm")]: {
-    width: "90%",
+    width: "95%",
   },
 }));
 const DateBox = styled(Box)(({ theme }) => ({
@@ -28,7 +28,7 @@ const DateBox = styled(Box)(({ theme }) => ({
 const DateTypography = styled(Typography)(({ theme }) => ({
   fontSize: "0.75rem",
   backgroundColor:
-    theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eeeeee", 
+    theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eeeeee",
   padding: "0.25rem 0.5rem",
   borderRadius: "20px",
   display: "inline-block",
@@ -48,15 +48,20 @@ const MessageBox = styled(Box)(({ theme }) => ({
   backgroundColor: "transparent",
 }));
 
-const PaperContainer = styled(Paper)(({ theme }) => ({
-  padding: "16px",
-  backgroundColor:
-    theme.palette.mode === "dark" ? theme.palette.action.selected : "#e0f7fa",
-  borderRadius: "8px",
+const PaperContainer = styled(Paper)(({ theme, isBeyondChat }) => ({
+  padding: "12px 12px 2px",
+  backgroundColor: isBeyondChat
+    ? theme.palette.mode === "dark"
+      ? "rgb(118,106,200)"
+      : "#dbffcc"
+    : theme.palette.mode === "dark"
+    ? "rgb(46,47,47)"
+    : theme.palette.common.white,
+  borderRadius: "10px",
   wordBreak: "break-word",
   width: "100%",
   [theme.breakpoints.down("sm")]: {
-    padding: "12px",
+    padding: "10px 8px 2px",
   },
 }));
 
@@ -143,7 +148,10 @@ const ShowMessage = ({ messages, loading }) => {
                 theme={theme}
               >
                 <Box sx={{ maxWidth: "75%" }}>
-                  <PaperContainer theme={theme}>
+                  <PaperContainer
+                    theme={theme}
+                    isBeyondChat={message.sender.name === "BeyondChat"}
+                  >
                     <MessageContent theme={theme}>
                       <MessageText variant="body1" theme={theme}>
                         {message.message}
