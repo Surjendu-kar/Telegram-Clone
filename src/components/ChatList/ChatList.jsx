@@ -16,6 +16,8 @@ import isYesterday from "dayjs/plugin/isYesterday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { useTheme } from "@mui/material/styles";
 import { CONSTANT } from "../../constant";
+import PropTypes from "prop-types";
+import Loading from "./Loading";
 
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
@@ -137,7 +139,7 @@ const ChatList = ({ onSelectChat }) => {
   const [searchParams] = useSearchParams();
   const chatIds = useRef(new Set()); // Using useRef to memoize chatIds
   const [chats, setChats] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [selectedChatId, setSelectedChatId] = useState(null);
@@ -192,9 +194,12 @@ const ChatList = ({ onSelectChat }) => {
   }, [page, searchVal]);
 
   const handleSelectChat = (chatGroup) => {
+    // Set the user name on title
     document.title = chatGroup.user.name;
+    // set the chat ID
     setSelectedChatId(chatGroup.user.id);
-    onSelectChat(chatGroup.chats);
+    // send the chat details to ChatWindow Component
+    onSelectChat(chatGroup);
   };
 
   const filteredChats =
@@ -206,6 +211,14 @@ const ChatList = ({ onSelectChat }) => {
 
   return (
     <>
+      {isLoading && <Loading />}
+
+      {!isLoading && !filteredChats.length && (
+        <Stack mt={5} alignItems="center" justifyContent="center">
+          <Typography>No User Found</Typography>
+        </Stack>
+      )}
+
       <List>
         {filteredChats.map((chatGroup, index) => (
           <StyledListItem
@@ -249,14 +262,12 @@ const ChatList = ({ onSelectChat }) => {
           </StyledListItem>
         ))}
       </List>
-
-      {!isLoading && !filteredChats.length && (
-        <Stack mt={5} alignItems="center" justifyContent="center">
-          <Typography>No User Found</Typography>
-        </Stack>
-      )}
     </>
   );
+};
+
+ChatList.propTypes = {
+  onSelectChat: PropTypes.func.isRequired,
 };
 
 export default ChatList;

@@ -30,7 +30,7 @@ export const getAllChats = async (page = 1) => {
       return acc;
     }, {});
   
-    // sort chat by groups
+    // sort chat by dates
     const sortedGroupedChats = Object.keys(groupedChats)
       .map((userId) => groupedChats[userId])
       .sort(
@@ -40,12 +40,16 @@ export const getAllChats = async (page = 1) => {
   
     // Fetch last messages for each chat
     for (const chatGroup of sortedGroupedChats) {
+      // fetch all messages
       const lastMessageResponse = await getChatMessages(chatGroup.chats[0].id);
+      // retrieve messages
       const messages = lastMessageResponse.data.data;
+      // retrieve the last message
       if (messages.length > 0) {
-        const lastMessage = messages[messages.length - 1];
+        const lastMessage = [...messages].pop();
         chatGroup.lastMessage = lastMessage.message;
         chatGroup.lastMessageTime = lastMessage.created_at;
+        chatGroup.messages = messages;
       }
     }
   

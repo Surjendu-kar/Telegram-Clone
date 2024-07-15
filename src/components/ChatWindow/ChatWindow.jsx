@@ -4,8 +4,8 @@ import dayjs from "dayjs";
 import MessageInput from "./MessageInput";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ChatHeader from "./ChatHeader";
-import { getChatMessages } from "../../services/api";
 import ShowMessage from "./ShowMessage";
+import PropTypes from "prop-types";
 
 const ChatContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -50,12 +50,13 @@ const ScrollButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const ChatWindow = ({ chats, onBack }) => {
+const ChatWindow = ({ selectedChat, onBack }) => {
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const messagesContainerRef = useRef(null);
   const theme = useTheme();
+  const chats = selectedChat.chats;
+  const localMessages = selectedChat.messages;
 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
@@ -81,45 +82,50 @@ const ChatWindow = ({ chats, onBack }) => {
   }, []);
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        let allMessages = [];
-        for (let chat of chats) {
-          const response = await getChatMessages(chat.id);
-          allMessages = allMessages.concat(response.data.data);
+    try {
+      localMessages.sort(
+        (a, b) => new Date(a.created_at) - new Date(b.created_at)
+      );
+      const groupedMessages = localMessages.reduce((acc, message) => {
+        const date = dayjs(message.created_at).format("YYYY-MM-DD");
+        if (!acc[date]) {
+          acc[date] = [];
         }
-        allMessages.sort(
-          (a, b) => new Date(a.created_at) - new Date(b.created_at)
-        );
-        // console.log("Fetched Messages:", allMessages);
-
-        const groupedMessages = allMessages.reduce((acc, message) => {
-          const date = dayjs(message.created_at).format("YYYY-MM-DD");
-          if (!acc[date]) {
-            acc[date] = [];
-          }
-          acc[date].push(message);
-          return acc;
-        }, {});
-        setMessages(groupedMessages);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    };
-
-    if (chats) {
-      fetchMessages();
+        acc[date].push(message);
+        return acc;
+      }, {});
+      setMessages(groupedMessages);
+    } catch (error) {
+      console.error(error);
     }
-  }, [chats]);
+  }, [localMessages]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
   const handleSendMessage = (message) => {
-    // console.log("Send message:", message);
+    console.log(messages)
+
+    // setMessages((prevMessages) => {
+    //   const date = dayjs().format("YYYY-MM-DD");
+    //   const newMessage = {
+    //     id: Math.random(),
+    //     message,
+    //     created_at: new Date().toISOString(),
+    //     user: {
+    //       id: "user",
+    //       name: "You",
+    //       profile_image: "",
+    //     },
+    //   };
+    //   const newMessages = { ...prevMessages };
+    //   if (!newMessages[date]) {
+    //     newMessages[date] = [];
+    //   }
+    //   newMessages[date].push(newMessage);
+    //   return newMessages;
+    // });
   };
 
   return (
@@ -129,7 +135,7 @@ const ChatWindow = ({ chats, onBack }) => {
 
       {/* show Messages */}
       <MessagesContainer ref={messagesContainerRef}>
-        <ShowMessage messages={messages} loading={loading} />
+        <ShowMessage messages={messages}  />
       </MessagesContainer>
 
       {!isAtBottom && (
@@ -142,6 +148,11 @@ const ChatWindow = ({ chats, onBack }) => {
       <MessageInput onSendMessage={handleSendMessage} />
     </ChatContainer>
   );
+};
+
+ChatWindow.propTypes = {
+  selectedChat: PropTypes.array.isRequired,
+  onBack: PropTypes.func.isRequired,
 };
 
 export default ChatWindow;

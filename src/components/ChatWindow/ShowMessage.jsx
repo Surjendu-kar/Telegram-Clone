@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { Box, Typography, Paper, styled, useTheme } from "@mui/material";
+import PropTypes from "prop-types";
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -17,7 +18,7 @@ const MainContainer = styled(Box)(({ theme }) => ({
     width: "95%",
   },
 }));
-const DateBox = styled(Box)(({ theme }) => ({
+const DateBox = styled(Box)(() => ({
   display: "flex",
   justifyContent: "center",
   width: "100%",
@@ -41,7 +42,7 @@ const DateTypography = styled(Typography)(({ theme }) => ({
   },
 }));
 
-const MessageBox = styled(Box)(({ theme }) => ({
+const MessageBox = styled(Box)(() => ({
   display: "flex",
   marginBottom: "1rem",
   width: "100%",
@@ -108,19 +109,8 @@ const formatDate = (date) => {
   }
 };
 
-const ShowMessage = ({ messages, loading }) => {
+const ShowMessage = ({ messages }) => {
   const theme = useTheme();
-
-  if (loading) {
-    return (
-      <Typography
-        variant="body1"
-        sx={{ color: theme.palette.text.primary, textAlign: "center" }}
-      >
-        Loading...
-      </Typography>
-    );
-  }
 
   if (Object.keys(messages).length === 0) {
     return (
@@ -171,6 +161,10 @@ const ShowMessage = ({ messages, loading }) => {
         ))}
     </MainContainer>
   );
+};
+
+ShowMessage.propTypes = {
+  messages: PropTypes.object.isRequired,
 };
 
 export default ShowMessage;

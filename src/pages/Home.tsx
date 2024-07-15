@@ -5,18 +5,18 @@ import ChatWindow from "../components/ChatWindow/ChatWindow";
 import Navbar from "../components/Navbar/Navbar";
 
 const Home = () => {
-  const [selectedChats, setSelectedChats] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleBack = () => {
-    setSelectedChats(null);
+    setSelectedChat(null);
   };
 
   return (
     <Grid container sx={{ height: "100vh" }}>
       {isMobile ? (
-        selectedChats ? (
+        selectedChat ? (
           <Grid
             item
             xs={12}
@@ -30,7 +30,7 @@ const Home = () => {
               backgroundPosition: "center",
             }}
           >
-            <ChatWindow chats={selectedChats} onBack={handleBack} />
+            <ChatWindow selectedChat={selectedChat} onBack={handleBack} />
           </Grid>
         ) : (
           <Grid
@@ -42,7 +42,7 @@ const Home = () => {
               <Navbar />
             </Box>
             <Box sx={{ flexGrow: 1, overflowY: "auto", padding: "0 0.5rem" }}>
-              <ChatList onSelectChat={setSelectedChats} />
+              <ChatList onSelectChat={setSelectedChat} />
             </Box>
           </Grid>
         )
@@ -65,7 +65,7 @@ const Home = () => {
               <Navbar />
             </Box>
             <Box sx={{ flexGrow: 1, overflowY: "auto", padding: "0 0.5rem" }}>
-              <ChatList onSelectChat={setSelectedChats} />
+              <ChatList onSelectChat={setSelectedChat} />
             </Box>
           </Grid>
           <Grid
@@ -81,8 +81,8 @@ const Home = () => {
               backgroundPosition: "center",
             }}
           >
-            {selectedChats ? (
-              <ChatWindow chats={selectedChats} onBack={handleBack} />
+            {selectedChat ? (
+              <ChatWindow selectedChat={selectedChat} onBack={handleBack} />
             ) : null}
           </Grid>
         </>
@@ -90,5 +90,7 @@ const Home = () => {
     </Grid>
   );
 };
+
+
 
 export default Home;
