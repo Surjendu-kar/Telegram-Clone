@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { List, ListItem, Avatar, Box, Typography, styled } from "@mui/material";
-import { getAllChats, getChatMessages } from "../../services/api";
+import { useSearchParams } from "react-router-dom";
+import { getAllChats } from "../../services/api";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import isYesterday from "dayjs/plugin/isYesterday";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { useTheme } from "@mui/material/styles";
+import { CONSTANT } from "../../constant";
 
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
@@ -101,7 +103,7 @@ const formatTime = (timestamp) => {
   const now = dayjs();
   const date = dayjs(timestamp);
 
-  if (date.isToday() ) {
+  if (date.isToday()) {
     return date.format("hh:mm A");
   } else if (now.diff(date, "day") < 7) {
     return date.format("dddd");
@@ -115,63 +117,40 @@ const formatTime = (timestamp) => {
 };
 
 const ChatList = ({ onSelectChat }) => {
+  const [searchParams] = useSearchParams();
   const [chats, setChats] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [selectedChatId, setSelectedChatId] = useState(null);
   const theme = useTheme();
+  const observer = useRef();
+  const searchVal = searchParams.get(CONSTANT.SEARCH) ?? "";
+
+  const lastChatElementRef = useCallback(
+    (node) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [hasMore]
+  );
 
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await getAllChats();
-        const allChats = response.data.data.data;
-
-        allChats.sort(
-          (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-        );
-        // console.log(allChats);
-
-        const groupedChats = allChats.reduce((acc, chat) => {
-          const userId = chat.creator.id;
-          if (!acc[userId]) {
-            acc[userId] = {
-              user: chat.creator,
-              chats: [],
-              lastMessage: null,
-              lastMessageTime: null,
-            };
-          }
-          acc[userId].chats.push(chat);
-          return acc;
-        }, {});
-
-        const sortedGroupedChats = Object.keys(groupedChats)
-          .map((userId) => groupedChats[userId])
-          .sort(
-            (a, b) =>
-              new Date(b.chats[0].updated_at) - new Date(a.chats[0].updated_at)
-          );
-
-        // Fetch last messages for each chat
-        for (const chatGroup of sortedGroupedChats) {
-          const lastMessageResponse = await getChatMessages(
-            chatGroup.chats[0].id
-          );
-          const messages = lastMessageResponse.data.data;
-          if (messages.length > 0) {
-            const lastMessage = messages[messages.length - 1];
-            chatGroup.lastMessage = lastMessage.message;
-            chatGroup.lastMessageTime = lastMessage.created_at;
-          }
-        }
-
-        setChats(sortedGroupedChats);
+        const { sortedGroupedChats, nextPageURL } = await getAllChats(page);
+        setChats((prevChats) => [...prevChats, ...sortedGroupedChats]);
+        setHasMore(!!nextPageURL);
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchChats();
-  }, []);
+  }, [page]);
 
   const handleSelectChat = (chatGroup) => {
     document.title = chatGroup.user.name;
@@ -179,15 +158,21 @@ const ChatList = ({ onSelectChat }) => {
     onSelectChat(chatGroup.chats);
   };
 
+  const filteredChats = chats.filter((each) =>
+    each.user.name?.toLowerCase().includes(searchVal.toLowerCase())
+  );
+
+
   return (
     <List>
-      {chats.map((chatGroup) => (
+      {filteredChats.map((chatGroup, index) => (
         <StyledListItem
           key={chatGroup.user.id}
           onClick={() => handleSelectChat(chatGroup)}
           isSelected={selectedChatId === chatGroup.user.id}
           selected={selectedChatId === chatGroup.user.id}
           theme={theme}
+          ref={filteredChats.length === index + 1 ? lastChatElementRef : null}
         >
           <StyledAvatar
             isSelected={selectedChatId === chatGroup.user.id}
@@ -222,6 +207,7 @@ const ChatList = ({ onSelectChat }) => {
         </StyledListItem>
       ))}
     </List>
+
   );
 };
 

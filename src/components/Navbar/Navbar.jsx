@@ -6,6 +6,7 @@ import {
   TextField,
   useMediaQuery,
 } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuItems from "../MenuItem/MenuItems";
@@ -27,11 +28,14 @@ import PeopleIcon from "@mui/icons-material/People";
 import AddIcon from "@mui/icons-material/Add";
 import HelpIcon from "@mui/icons-material/Help";
 import AnchorTemporaryDrawer from "../MenuItem/AnchorTemporaryDrawer";
+import { CONSTANT } from "../../constant";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { toggleTheme, theme } = useThemeContext();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const searchVal = searchParams.get(CONSTANT.SEARCH) ?? '';
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,6 +43,11 @@ const Navbar = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleSearch = (val) => {
+    searchParams.set(CONSTANT.SEARCH, val);
+    setSearchParams(searchParams);
   };
 
   const isMenuOpen = Boolean(anchorEl);
@@ -102,6 +111,8 @@ const Navbar = () => {
         <TextField
           variant="outlined"
           placeholder="Search"
+          value={searchVal}
+          onChange={(e) => handleSearch(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
