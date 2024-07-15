@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   TextField,
@@ -25,11 +25,10 @@ const InputBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: "0.75rem",
-  borderTop: "1px solid #ccc",
   width: "100%",
   backgroundColor:
     theme.palette.mode === "dark"
-      ? "rgb(46, 47, 47)"
+      ? "#212121"
       : theme.palette.background.paper,
   borderRadius: "10px",
   boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.09)",

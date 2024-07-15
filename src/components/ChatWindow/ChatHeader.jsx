@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -7,7 +7,7 @@ import {
   useTheme,
   styled,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import the ArrowBackIcon
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"; 
 import SearchIcon from "@mui/icons-material/Search";
 import CallIcon from "@mui/icons-material/Call";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -20,7 +20,9 @@ import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import BlockIcon from "@mui/icons-material/Block";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MenuItems from "../MenuItem/MenuItems";
+import PropTypes from "prop-types";
 
+// Styled components
 const StyleAvatar = styled(Avatar)(({ theme }) => ({
   margin: "0 1rem",
   [theme.breakpoints.down("sm")]: {
@@ -28,6 +30,15 @@ const StyleAvatar = styled(Avatar)(({ theme }) => ({
   },
 }));
 
+const StyledIconButton = styled(IconButton)({
+  marginLeft: "0.5rem",
+
+  svg: {
+    fill: "#aaaaaa",
+  },
+});
+
+// Main component
 const ChatHeader = ({ chat, onBack }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
@@ -83,13 +94,13 @@ const ChatHeader = ({ chat, onBack }) => {
           last seen recently
         </Typography>
       </Box>
-      <IconButton>
+      <StyledIconButton>
         <SearchIcon />
-      </IconButton>
-      <IconButton>
+      </StyledIconButton>
+      <StyledIconButton>
         <CallIcon />
-      </IconButton>
-      <IconButton
+      </StyledIconButton>
+      <StyledIconButton
         onClick={handleMenuClick}
         sx={{
           borderRadius: "50%",
@@ -103,7 +114,7 @@ const ChatHeader = ({ chat, onBack }) => {
         }}
       >
         <MoreVertIcon sx={{ color: theme.palette.text.primary }} />
-      </IconButton>
+      </StyledIconButton>
       <MenuItems
         anchorEl={anchorEl}
         handleClose={handleMenuClose}
@@ -111,6 +122,11 @@ const ChatHeader = ({ chat, onBack }) => {
       />
     </Box>
   );
+};
+
+ChatHeader.propTypes = {
+  chat: PropTypes.object.isRequired,
+  onBack: PropTypes.func.isRequired,
 };
 
 export default ChatHeader;

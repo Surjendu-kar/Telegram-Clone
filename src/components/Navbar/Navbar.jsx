@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   IconButton,
@@ -46,6 +46,12 @@ const Navbar = () => {
   };
 
   const handleSearch = (val) => {
+    if (!val) {
+      searchParams.delete(CONSTANT.SEARCH);
+      setSearchParams(searchParams);
+      return;
+    }
+
     searchParams.set(CONSTANT.SEARCH, val);
     setSearchParams(searchParams);
   };

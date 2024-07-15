@@ -1,5 +1,13 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { List, ListItem, Avatar, Box, Typography, styled } from "@mui/material";
+import {
+  List,
+  ListItem,
+  Avatar,
+  Box,
+  Typography,
+  styled,
+  Stack,
+} from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import { getAllChats } from "../../services/api";
 import dayjs from "dayjs";
@@ -126,7 +134,9 @@ const formatTime = (timestamp) => {
 
 const ChatList = ({ onSelectChat }) => {
   const [searchParams] = useSearchParams();
+  const chatIds = useRef(new Set()); // Using useRef to memoize chatIds
   const [chats, setChats] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [selectedChatId, setSelectedChatId] = useState(null);
@@ -149,16 +159,36 @@ const ChatList = ({ onSelectChat }) => {
 
   useEffect(() => {
     const fetchChats = async () => {
+      setIsLoading(true);
       try {
         const { sortedGroupedChats, nextPageURL } = await getAllChats(page);
-        setChats((prevChats) => [...prevChats, ...sortedGroupedChats]);
+        // Check if the chat is already in the list
+        const newChats = sortedGroupedChats.filter(
+          (chat) => !chatIds.current.has(chat.user.id)
+        );
+        // Add new chat IDs to the set
+        const newChatIds = new Set([
+          ...chatIds.current,
+          ...newChats.map((chat) => chat.user.id),
+        ]);
+
+        // Update the state
+        setChats((prevChats) => [...prevChats, ...newChats]);
+        chatIds.current = newChatIds;
         setHasMore(!!nextPageURL);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
+
+    if ((searchVal.length > 0) & (page > 1)) {
+      return;
+    }
+
     fetchChats();
-  }, [page]);
+  }, [page, searchVal]);
 
   const handleSelectChat = (chatGroup) => {
     document.title = chatGroup.user.name;
@@ -166,54 +196,65 @@ const ChatList = ({ onSelectChat }) => {
     onSelectChat(chatGroup.chats);
   };
 
-  const filteredChats = chats.filter((each) =>
-    each.user.name?.toLowerCase().includes(searchVal.toLowerCase())
-  );
+  const filteredChats =
+    searchVal.length > 0
+      ? chats.filter((each) =>
+          each.user.name?.toLowerCase().includes(searchVal.toLowerCase())
+        )
+      : [...chats];
 
   return (
-    <List>
-      {filteredChats.map((chatGroup, index) => (
-        <StyledListItem
-          key={chatGroup.user.id}
-          onClick={() => handleSelectChat(chatGroup)}
-          isSelected={selectedChatId === chatGroup.user.id}
-          selected={selectedChatId === chatGroup.user.id}
-          theme={theme}
-          ref={filteredChats.length === index + 1 ? lastChatElementRef : null}
-        >
-          <StyledAvatar
+    <>
+      <List>
+        {filteredChats.map((chatGroup, index) => (
+          <StyledListItem
+            key={chatGroup.user.id}
+            onClick={() => handleSelectChat(chatGroup)}
             isSelected={selectedChatId === chatGroup.user.id}
+            selected={selectedChatId === chatGroup.user.id}
             theme={theme}
+            ref={filteredChats.length === index + 1 ? lastChatElementRef : null}
           >
-            {chatGroup.user.name ? chatGroup.user.name.charAt(0) : "U"}
-          </StyledAvatar>
-          <ContentBox>
-            <HeaderBox>
-              <UserName
-                theme={theme}
-                isSelected={selectedChatId === chatGroup.user.id}
-              >
-                {chatGroup.user.name || "Deleted User"}
-              </UserName>
-              {chatGroup.lastMessageTime && (
-                <LastMessageTime
+            <StyledAvatar
+              isSelected={selectedChatId === chatGroup.user.id}
+              theme={theme}
+            >
+              {chatGroup.user.name ? chatGroup.user.name.charAt(0) : "U"}
+            </StyledAvatar>
+            <ContentBox>
+              <HeaderBox>
+                <UserName
                   theme={theme}
                   isSelected={selectedChatId === chatGroup.user.id}
                 >
-                  {formatTime(chatGroup.lastMessageTime)}
-                </LastMessageTime>
-              )}
-            </HeaderBox>
-            <LastMessage
-              theme={theme}
-              isSelected={selectedChatId === chatGroup.user.id}
-            >
-              {chatGroup.lastMessage || "No messages"}
-            </LastMessage>
-          </ContentBox>
-        </StyledListItem>
-      ))}
-    </List>
+                  {chatGroup.user.name || "Deleted User"}
+                </UserName>
+                {chatGroup.lastMessageTime && (
+                  <LastMessageTime
+                    theme={theme}
+                    isSelected={selectedChatId === chatGroup.user.id}
+                  >
+                    {formatTime(chatGroup.lastMessageTime)}
+                  </LastMessageTime>
+                )}
+              </HeaderBox>
+              <LastMessage
+                theme={theme}
+                isSelected={selectedChatId === chatGroup.user.id}
+              >
+                {chatGroup.lastMessage || "No messages"}
+              </LastMessage>
+            </ContentBox>
+          </StyledListItem>
+        ))}
+      </List>
+
+      {!isLoading && !filteredChats.length && (
+        <Stack mt={5} alignItems="center" justifyContent="center">
+          <Typography>No User Found</Typography>
+        </Stack>
+      )}
+    </>
   );
 };
 
