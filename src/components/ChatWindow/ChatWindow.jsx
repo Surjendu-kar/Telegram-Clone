@@ -7,12 +7,13 @@ import ChatHeader from "./ChatHeader";
 import { getChatMessages } from "../../services/api";
 import ShowMessage from "./ShowMessage";
 
-const ChatContainer = styled(Box)({
+const ChatContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   height: "100vh",
   position: "relative",
-});
+  [theme.breakpoints.down("sm")]: {},
+}));
 
 const MessagesContainer = styled(Box)({
   flexGrow: 1,
@@ -136,7 +137,7 @@ const ChatWindow = ({ chats, onBack }) => {
   return (
     <ChatContainer>
       {/* Header */}
-      <ChatHeader chat={chats[0]} />
+      <ChatHeader chat={chats[0]} onBack={onBack} />
 
       {/* show Messages */}
       <MessagesContainer ref={messagesContainerRef}>

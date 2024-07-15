@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  TextField,
+  useMediaQuery,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuItems from "../MenuItem/MenuItems";
@@ -14,10 +20,18 @@ import InstallMobileIcon from "@mui/icons-material/InstallMobile";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import { useThemeContext } from "../../context/ThemeContext";
+import PersonIcon from "@mui/icons-material/Person";
+import GroupIcon from "@mui/icons-material/Group";
+import CallIcon from "@mui/icons-material/Call";
+import PeopleIcon from "@mui/icons-material/People";
+import AddIcon from "@mui/icons-material/Add";
+import HelpIcon from "@mui/icons-material/Help";
+import AnchorTemporaryDrawer from "../MenuItem/AnchorTemporaryDrawer";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { toggleTheme, theme } = useThemeContext();
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,6 +60,18 @@ const Navbar = () => {
     { text: "Report a Bug", icon: <BugReportIcon /> },
     { text: "Switch to K Version", icon: <NewReleasesIcon /> },
     { text: "Install App", icon: <InstallMobileIcon /> },
+  ];
+
+  const menuItemsformobile = [
+    { text: "My Profile", icon: <PersonIcon /> },
+    { text: "New Group", icon: <GroupIcon /> },
+    { text: "Contacts", icon: <ContactsIcon /> },
+    { text: "Calls", icon: <CallIcon /> },
+    { text: "People Nearby", icon: <PeopleIcon /> },
+    { text: "Saved Messages", icon: <SaveIcon /> },
+    { text: "Settings", icon: <SettingsIcon /> },
+    { text: "Invite Friends", icon: <AddIcon /> },
+    { text: "Telegram Features", icon: <HelpIcon /> },
   ];
 
   return (
@@ -95,12 +121,20 @@ const Navbar = () => {
           }}
         />
       </Box>
-      <MenuItems
-        anchorEl={anchorEl}
-        handleClose={handleMenuClose}
-        items={menuItems}
-        currentTheme={theme.palette.mode}
-      />
+      {isMobile ? (
+        <AnchorTemporaryDrawer
+          open={isMenuOpen}
+          onClose={handleMenuClose}
+          items={menuItemsformobile}
+        />
+      ) : (
+        <MenuItems
+          anchorEl={anchorEl}
+          handleClose={handleMenuClose}
+          items={menuItems}
+          currentTheme={theme.palette.mode}
+        />
+      )}
     </Box>
   );
 };

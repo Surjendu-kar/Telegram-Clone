@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, Typography, Avatar, IconButton, useTheme } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Avatar,
+  IconButton,
+  useTheme,
+  styled,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import the ArrowBackIcon
 import SearchIcon from "@mui/icons-material/Search";
 import CallIcon from "@mui/icons-material/Call";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -13,7 +21,14 @@ import BlockIcon from "@mui/icons-material/Block";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MenuItems from "../MenuItem/MenuItems";
 
-const ChatHeader = ({ chat }) => {
+const StyleAvatar = styled(Avatar)(({ theme }) => ({
+  margin: "0 1rem",
+  [theme.breakpoints.down("sm")]: {
+    margin: "0 0.75rem 0 0.5rem",
+  },
+}));
+
+const ChatHeader = ({ chat, onBack }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
 
@@ -49,9 +64,14 @@ const ChatHeader = ({ chat }) => {
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <Avatar sx={{ margin: "0 1rem" }}>
+      <Box sx={{ display: { xl: "none", xs: "block" } }}>
+        <IconButton onClick={onBack}>
+          <ArrowBackIcon />
+        </IconButton>
+      </Box>
+      <StyleAvatar>
         {chat.creator.name ? chat.creator.name.charAt(0) : "D"}
-      </Avatar>
+      </StyleAvatar>
       <Box sx={{ flexGrow: 1 }}>
         <Typography sx={{ fontSize: "1rem" }}>
           {chat.creator.name ? chat.creator.name : "Deleted User"}

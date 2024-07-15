@@ -28,7 +28,7 @@ const DateBox = styled(Box)(({ theme }) => ({
 const DateTypography = styled(Typography)(({ theme }) => ({
   fontSize: "0.75rem",
   backgroundColor:
-    theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eeeeee", // Conditional background
+    theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eeeeee", 
   padding: "0.25rem 0.5rem",
   borderRadius: "20px",
   display: "inline-block",

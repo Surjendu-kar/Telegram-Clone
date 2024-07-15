@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Box, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import ChatList from "../components/ChatList/ChatList";
 import ChatWindow from "../components/ChatWindow/ChatWindow";
 import Navbar from "../components/Navbar/Navbar";
