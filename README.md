@@ -17,7 +17,7 @@ You can view the live demo of the project
 - Display of chat lists and individual chat messages.
 - Functional search bar to filter chats.
 - Theme toggle (light/dark mode).
-- fetching and rendering message .
+- Chat data is continuously fetched and rendered as the user scrolls down.
 - Interactive UI components that replicate Telegram's design.
 
 
