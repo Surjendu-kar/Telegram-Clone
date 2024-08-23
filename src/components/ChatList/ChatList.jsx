@@ -215,7 +215,11 @@ const ChatList = ({ onSelectChat }) => {
 
       {!isLoading && !filteredChats.length && (
         <Stack mt={5} alignItems="center" justifyContent="center">
-          <Typography>No User Found</Typography>
+          {/* <Typography>No User Found</Typography> */}
+          <Typography>
+            Data may not display due to API that provided by the team is not
+            working.
+          </Typography>
         </Stack>
       )}
 
