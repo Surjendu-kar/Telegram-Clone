@@ -17,7 +17,7 @@ You can view the live demo of the project
 - Display of chat lists and individual chat messages.
 - Functional search bar to filter chats.
 - Theme toggle (light/dark mode).
-- fetching and rendering message .
+- Chat data is continuously fetched and rendered as the user scrolls down.
 - Interactive UI components that replicate Telegram's design.
 
 
@@ -103,4 +103,53 @@ Material-UI for providing a robust and customizable component library
 
 
 
+
+
+## Screenshots
+### Desktop version (Dark Mode):
+![App Screenshot](https://i.ibb.co/kBCLJML/Screenshot-2024-07-24-010254.png)
+
+![App Screenshot](https://i.ibb.co/8M2fzkw/Screenshot-2024-07-24-013348.png)
+
+![App Screenshot](https://i.ibb.co/YfbGD27/Screenshot-2024-07-24-011022.png)
+
+![App Screenshot](https://i.ibb.co/K5YTjvk/Screenshot-2024-07-24-013537.png)
+
+![App Screenshot](https://i.ibb.co/WzGSg9n/Screenshot-2024-07-24-011238.png)
+
+![App Screenshot](https://i.ibb.co/DWgBRYS/Screenshot-2024-07-24-011225.png)
+
+
+### Desktop version (Light Mode):
+
+![App Screenshot](https://i.ibb.co/NV2NFH1/Screenshot-2024-07-24-011103.png)
+###
+
+![App Screenshot](https://i.ibb.co/sKV1Zjf/Screenshot-2024-07-24-013846.png)
+
+![App Screenshot](https://i.ibb.co/fSn2DX3/Screenshot-2024-07-24-011142.png)
+
+![App Screenshot](https://i.ibb.co/nCkptwy/Screenshot-2024-07-24-011158.png)
+
+![App Screenshot](https://i.ibb.co/VTbK0KW/Screenshot-2024-07-24-011210.png)
+
+### Mobile version (Dark Mode):
+
+![App Screenshot](https://i.ibb.co/JC5Kn65/Screenshot-2024-07-24-011309.png)
+
+![App Screenshot](https://i.ibb.co/TKnSCcm/Screenshot-2024-07-24-011320.png)
+
+![App Screenshot](https://i.ibb.co/kq8R01Q/Screenshot-2024-07-24-011337.png)
+
+![App Screenshot](https://i.ibb.co/Y3KrGxX/Screenshot-2024-07-24-011355.png)
+
+### Mobile version (Light Mode):
+
+![App Screenshot](https://i.ibb.co/0QH5Xbc/Screenshot-2024-07-24-011437.png)
+
+![App Screenshot](https://i.ibb.co/sgmXk98/Screenshot-2024-07-24-011512.png)
+
+![App Screenshot](https://i.ibb.co/X89nndB/Screenshot-2024-07-24-011544.png)
+
+![App Screenshot](https://i.ibb.co/jJrwvrT/Screenshot-2024-07-24-011528.png)
 
